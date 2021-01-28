@@ -1,7 +1,5 @@
 from deepvac.syszux_config import *
-from torchvision import transforms as trans
 config.aug = AttrDict()
-config.synthesis = AttrDict()
 # DDP
 config.dist_url = 'tcp://localhost:27030'
 config.world_size = 2
@@ -40,7 +38,6 @@ config.val.fileline_data_path_prefix = 'your val image dir'
 config.val.fileline_path = 'data/val_cls.txt'
 config.val.batch_size = 1
 config.val.num = 800
-config.val.num_disp = 10
 config.val.shuffle = True
 config.val.image_size = [192, 48, 3]
 

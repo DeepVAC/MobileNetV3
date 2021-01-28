@@ -73,4 +73,4 @@ python3 test.py
 
 ### 项目参考
 
-有关在配置文件中开启分布式训练、tensorboard、模型C++化、移动端移植、量化、自动混合精度、预训练模型加载等更多功能，请参考(https://github.com/DeepVAC/deepvac)
+有关在配置文件中开启分布式训练、tensorboard、模型C++化、移动端移植、量化、自动混合精度、预训练模型加载等更多功能，请参考[DeepVAC](https://github.com/DeepVAC/deepvac)

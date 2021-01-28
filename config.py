@@ -1,5 +1,4 @@
 from deepvac.syszux_config import *
-config.aug = AttrDict()
 # DDP
 config.dist_url = 'tcp://localhost:27030'
 config.world_size = 2

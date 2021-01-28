@@ -65,10 +65,10 @@ class DeepvacCls(DeepvacTrain):
         self.train_loader = DataLoader(
             dataset=self.train_dataset,
             batch_size=self.conf.train.batch_size,
-            shuffle=self.conf.train.shuffle if not is_ddp else False,
+            shuffle=False if is_ddp else self.conf.train.shuffle,
             num_workers=self.conf.workers,
             pin_memory=self.conf.pin_memory,
-            sampler=None if not is_ddp else self.train_sampler
+            sampler=self.train_sampler if is_ddp else None
         )
 
     def initValLoader(self):

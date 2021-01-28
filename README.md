@@ -46,7 +46,7 @@ python3 train.py
 config.world_size = 2
 
 ```
-ddp 训练
+启动训练
 
 ```
 python train.py --rank 0 --gpu 0

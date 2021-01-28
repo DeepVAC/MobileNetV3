@@ -14,7 +14,6 @@ from torch.utils.data import DataLoader
 import cv2
 import os
 import numpy as np
-###CRNN model###
 from deepvac.syszux_mobilenet import MobileNetV3
 
 ### customized dataset begin
@@ -31,15 +30,7 @@ class ClsDataset(FileLineCvStrDataset):
         if random.random() < 0.8 and self.phase == 'train':
             sample = self.aug(sample)
 
-        img_h, img_w = sample.shape[:2]
-        in_w = int(img_w/img_h * self.img_size[1])
-        sample = cv2.resize(sample,(in_w, self.img_size[1]))
-
-        if in_w >= self.img_size[0]:
-            sample = sample[0:self.img_size[1], 0:self.img_size[0]]
-        else:
-            sample = cv2.copyMakeBorder(sample, 0, 0, 0, self.img_size[0] - in_w, cv2.BORDER_CONSTANT, value = [0, 0, 0])
-        
+        sample = cv2.resize(sample,(self.img_size[0], self.img_size[1]))
         sample = sample.astype(np.float32)
         sample = sample/127.5 - 1
         sample = sample.transpose([2, 0, 1])

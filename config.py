@@ -48,7 +48,6 @@ config.val.image_size = [192, 48, 3]
 config.model_path = 'model path'
 config.test.fileline_data_path_prefix = 'test images path'
 config.test.fileline_path = 'test ground-truth path'
-config.test.use_fileline = True
 config.test.batch_size = 1
 config.test.shuffle = False
 config.test.image_size = [192, 48, 3]

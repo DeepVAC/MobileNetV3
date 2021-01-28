@@ -49,8 +49,8 @@ config.world_size = 2
 ddp 训练
 
 ```
-python train_ddp.py --rank 0 --gpu 0
-python train_ddp.py --rank 1 --gpu 1
+python train.py --rank 0 --gpu 0
+python train.py --rank 1 --gpu 1
 ...
 ```
 这里启动的训练命令数与word_size对应，0为主进程
@@ -73,4 +73,4 @@ python3 test.py
 
 ### 项目参考
 
-有关配置文件和ddp的更多细节，请参考：https://github.com/DeepVAC/deepvac
+有关在配置文件中开启分布式训练、tensorboard、模型C++化、移动端移植、量化、自动混合精度、预训练模型加载等更多功能，请参考(https://github.com/DeepVAC/deepvac)

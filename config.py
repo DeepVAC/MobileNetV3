@@ -46,7 +46,7 @@ config.val.image_size = [192, 48, 3]
 
 #test
 config.model_path = 'your model path'
-config.test.fileline_data_path_prefix = 'your test image dir'
+config.test.fileline_data_path_prefix = 'your test img path'
 config.test.fileline_path = 'data/test_cls.txt'
 config.test.batch_size = 1
 config.test.shuffle = False

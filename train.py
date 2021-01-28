@@ -2,7 +2,6 @@ import sys
 import random
 from PIL import Image
 from deepvac.syszux_executor import Executor
-from deepvac.syszux_deepvac import DeepvacTrain
 from deepvac.syszux_loader import FileLineCvStrDataset
 from deepvac.syszux_log import LOG
 import torch
@@ -19,6 +18,8 @@ is_ddp = False
 if '--rank' in sys.argv:
     is_ddp = True
     from deepvac.syszux_deepvac import DeepvacDDP as DeepvacTrain
+else:
+    from deepvac.syszux_deepvac import DeepvacTrain
 
 ### customized dataset begin
 class ClsDataset(FileLineCvStrDataset):
@@ -57,30 +58,18 @@ class DeepvacCls(DeepvacTrain):
     def initCriterion(self):
         self.criterion = torch.nn.CrossEntropyLoss()
 
-    def initTrainLoaderDDP(self):
+    def initTrainLoader(self):
         self.train_dataset = ClsDataset(self.conf.train)
-        self.train_sampler = torch.utils.data.distributed.DistributedSampler(self.train_dataset)
+        if is_ddp:
+            self.train_sampler = torch.utils.data.distributed.DistributedSampler(self.train_dataset)
         self.train_loader = DataLoader(
             dataset=self.train_dataset,
             batch_size=self.conf.train.batch_size,
-            shuffle=(self.train_sampler is None),
+            shuffle=self.conf.train.shuffle if not is_ddp else False,
             num_workers=self.conf.workers,
             pin_memory=self.conf.pin_memory,
-            sampler=self.train_sampler
+            sampler=None if not is_ddp else self.train_sampler
         )
-
-    def initTrainLoader(self):
-        if is_ddp:
-            self.initTrainLoaderDDP()
-        else:
-            self.train_dataset = ClsDataset(self.conf.train)
-            self.train_loader = DataLoader(
-                dataset=self.train_dataset,
-                batch_size=self.conf.train.batch_size,
-                shuffle=self.conf.train.shuffle,
-                num_workers=self.conf.workers,
-                pin_memory=self.conf.pin_memory,
-            )
 
     def initValLoader(self):
         self.val_dataset = ClsDataset(self.conf.val)

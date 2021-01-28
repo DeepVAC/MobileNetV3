@@ -1,9 +1,8 @@
 import sys
 import random
 from PIL import Image
-from deepvac.syszux_executor import Executor, OcrAugExecutor
-from deepvac.syszux_deepvac import DeepvacTrain, DeepvacDDP
-from deepvac.syszux_report import OcrReport
+from deepvac.syszux_executor import Executor
+from deepvac.syszux_deepvac import DeepvacTrain
 from deepvac.syszux_loader import FileLineCvStrDataset
 from deepvac.syszux_log import LOG
 import torch
@@ -16,19 +15,20 @@ import os
 import numpy as np
 from deepvac.syszux_mobilenet import MobileNetV3
 
+is_ddp = False
+if '--rank' in sys.argv:
+    is_ddp = True
+    from deepvac.syszux_deepvac import DeepvacDDP as DeepvacTrain
+
 ### customized dataset begin
 class ClsDataset(FileLineCvStrDataset):
-    def __init__(self, config, phase):
+    def __init__(self, config):
         super(ClsDataset, self).__init__(config)
         self.img_size = config.image_size
-        self.aug = OcrAugExecutor(config)
-        self.phase = phase
 
     def __getitem__(self, idx):
         sample, target = super(ClsDataset, self).__getitem__(idx)
 
-        if random.random() < 0.8 and self.phase == 'train':
-            sample = self.aug(sample)
 
         sample = cv2.resize(sample,(self.img_size[0], self.img_size[1]))
 
@@ -57,18 +57,33 @@ class DeepvacCls(DeepvacTrain):
     def initCriterion(self):
         self.criterion = torch.nn.CrossEntropyLoss()
 
-    def initTrainLoader(self):
-        self.train_dataset = ClsDataset(self.conf.train, 'train')
+    def initTrainLoaderDDP(self):
+        self.train_dataset = ClsDataset(self.conf.train)
+        self.train_sampler = torch.utils.data.distributed.DistributedSampler(self.train_dataset)
         self.train_loader = DataLoader(
             dataset=self.train_dataset,
             batch_size=self.conf.train.batch_size,
-            shuffle=self.conf.train.shuffle,
+            shuffle=(self.train_sampler is None),
             num_workers=self.conf.workers,
             pin_memory=self.conf.pin_memory,
+            sampler=self.train_sampler
         )
 
+    def initTrainLoader(self):
+        if is_ddp:
+            self.initTrainLoaderDDP()
+        else:
+            self.train_dataset = ClsDataset(self.conf.train)
+            self.train_loader = DataLoader(
+                dataset=self.train_dataset,
+                batch_size=self.conf.train.batch_size,
+                shuffle=self.conf.train.shuffle,
+                num_workers=self.conf.workers,
+                pin_memory=self.conf.pin_memory,
+            )
+
     def initValLoader(self):
-        self.val_dataset = ClsDataset(self.conf.val, 'val')
+        self.val_dataset = ClsDataset(self.conf.val)
         self.val_loader = DataLoader(
             dataset=self.val_dataset,
             batch_size=self.conf.val.batch_size,

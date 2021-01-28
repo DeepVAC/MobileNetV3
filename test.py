@@ -1,6 +1,6 @@
 import sys
 from deepvac.syszux_deepvac import Deepvac
-from deepvac.syszux_report import OcrReport, ClassifierReport
+from deepvac.syszux_re ClassifierReport
 from deepvac.syszux_loader import FileLineCvStrDataset
 from deepvac.syszux_log import LOG
 import torch

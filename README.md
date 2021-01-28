@@ -7,7 +7,7 @@ deepvac, pytorch, opencv-python, numpy
 
 ### 配置文件
 
-** 准备数据 **
+**准备数据**
 
 修改config.py文件，指定训练集、验证集、测试集的图片目录和对应的标注txt文件
 
@@ -22,7 +22,7 @@ config.test.fileline_data_path_prefix = 'test images path'
 config.test.fileline_path = 'data/test_cls.txt'
 ```
 
-** 修改分类数 **
+**修改分类数**
 
 修改config.py
 
@@ -32,13 +32,13 @@ config.num_classes = 4
 
 ### 训练
 
-** 单卡训练 **
+**单卡训练**
 
 ```
 python3 train.py
 ```
 
-** ddp训练 **
+**ddp训练**
 
 修改word_size
 
@@ -57,7 +57,7 @@ python train.py --rank 1 --gpu 1
 
 ### 测试
 
-** 指定模型路径 **
+**指定模型路径**
 
 修改config.py指定模型路径
 
@@ -65,7 +65,7 @@ python train.py --rank 1 --gpu 1
 config.model_path = 'model path'
 ```
 
-** 运行测试脚本 **
+**运行测试脚本**
 
 ```
 python3 test.py

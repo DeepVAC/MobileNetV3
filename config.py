@@ -1,4 +1,4 @@
-from deepvac.syszux_config import *
+from deepvac import config
 # DDP
 config.dist_url = 'tcp://localhost:27030'
 config.world_size = 2
@@ -26,14 +26,14 @@ config.script_model_dir = 'script.pt'
 config.trace_model_dir = 'trace.pt'
 
 # train
-config.train.fileline_data_path_prefix = 'your train image dir'
+config.train.fileline_data_path_prefix ='your train dataset dir'
 config.train.fileline_path = 'data/train_cls.txt'
 config.train.batch_size = 128
 config.train.shuffle = True
 config.train.image_size = [192, 48, 3]
 
 #val
-config.val.fileline_data_path_prefix = 'your val image dir'
+config.val.fileline_data_path_prefix = 'your val dataset dir'
 config.val.fileline_path = 'data/val_cls.txt'
 config.val.batch_size = 1
 config.val.num = 800

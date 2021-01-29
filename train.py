@@ -1,9 +1,7 @@
 import sys
 import random
 from PIL import Image
-from deepvac.syszux_executor import Executor
-from deepvac.syszux_loader import FileLineCvStrDataset
-from deepvac.syszux_log import LOG
+from deepvac import Executor, FileLineCvStrDataset, LOG, DeepvacTrain, is_ddp
 import torch
 import torch.optim as optim
 import torch.utils.data as data
@@ -13,13 +11,6 @@ import cv2
 import os
 import numpy as np
 from deepvac.syszux_mobilenet import MobileNetV3
-
-is_ddp = False
-if '--rank' in sys.argv:
-    is_ddp = True
-    from deepvac.syszux_deepvac import DeepvacDDP as DeepvacTrain
-else:
-    from deepvac.syszux_deepvac import DeepvacTrain
 
 ### customized dataset begin
 class ClsDataset(FileLineCvStrDataset):

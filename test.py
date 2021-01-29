@@ -1,8 +1,5 @@
 import sys
-from deepvac.syszux_deepvac import Deepvac
-from deepvac.syszux_report import ClassifierReport
-from deepvac.syszux_loader import FileLineCvStrDataset
-from deepvac.syszux_log import LOG
+from deepvac import Deepvac, ClassifierReport, FileLineCvStrDataset, LOG 
 import torch
 import torch.utils.data as data
 from torch.utils.data import DataLoader

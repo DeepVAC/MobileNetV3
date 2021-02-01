@@ -87,6 +87,7 @@ python3 test.py
 ## 7， 更多功能
 如果要在本项目中开启如下功能：
 - 预训练模型加载
+- checkpoint加载
 - 使用tensorboard
 - 启用TorchScript
 - 转换ONNX

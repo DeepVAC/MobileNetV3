@@ -11,7 +11,6 @@ import cv2
 import os
 import numpy as np
 from deepvac.syszux_mobilenet import MobileNetV3
-
 ### customized dataset begin
 class ClsDataset(FileLineCvStrDataset):
     def __init__(self, config):
@@ -20,10 +19,7 @@ class ClsDataset(FileLineCvStrDataset):
 
     def __getitem__(self, idx):
         sample, target = super(ClsDataset, self).__getitem__(idx)
-
-
         sample = cv2.resize(sample,(self.img_size[0], self.img_size[1]))
-
         sample = sample.astype(np.float32)
         sample = sample/127.5 - 1
         sample = sample.transpose([2, 0, 1])
@@ -38,7 +34,6 @@ class DeepvacCls(DeepvacTrain):
     def initNetWithCode(self):
         # to initial self.net
         self.net = MobileNetV3(class_num=self.conf.num_classes)
-        self.net.to(self.conf.device)
 
     def initModelPath(self):
         pass

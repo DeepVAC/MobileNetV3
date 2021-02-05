@@ -15,9 +15,7 @@ class DeepvacClsTest(Deepvac):
         self.initTestLoader()
     
     def initNetWithCode(self):
-        #to initial self.net
         self.net = MobileNetV3(class_num=self.conf.num_classes)
-        self.net.to(self.device)
 
     def process(self):
         cls_report = ClassifierReport(ds_name="cls_dataset",total_num=self.test_loader.__len__(), cls_num=self.conf.num_classes, threshold=0.99)
@@ -44,4 +42,5 @@ class DeepvacClsTest(Deepvac):
 if __name__ == '__main__':
     from config import config as deepvac_config
     cls = DeepvacClsTest(deepvac_config)
-    cls()
+    cls(torch.rand([1, 3, 48, 192])
+)

@@ -33,16 +33,16 @@ fileline_path = 'data/train_cls.txt'
 delimiter = ' ' 
 sample_path_prefix = <your sample_path_prefix>
 
-# line 65
+# line 69
 fileline_path = 'data/val_cls.txt'
 
-# line 79
+# line 82
 fileline_path = 'data/test_cls.txt'
 ```
 
 - 修改分类数
 ```
-config.core.DeepvacCls.cls_num = 4
+config.core.MobileNetv3Train.cls_num = 4
 ```
 
 ## 5. 训练
@@ -58,7 +58,7 @@ python3 train.py
 
 ```python
 fileline_path = 'data/test_cls.txt'
-config.core.DeepvacClsTest.model_path = "your test model dir / pretrained weights"
+config.core.MobileNetv3Test.model_path = "your test model dir / pretrained weights"
 ```
 
 然后运行测试脚本：

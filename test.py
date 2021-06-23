@@ -2,7 +2,7 @@ import numpy as np
 
 from deepvac import Deepvac, ClassifierReport, LOG
 
-class DeepvacClsTest(Deepvac):
+class MobileNetv3Test(Deepvac):
     def doTest(self):
         cls_report = ClassifierReport(ds_name="cls_dataset",total_num=self.config.test_loader.__len__(), cls_num=self.config.cls_num, threshold=0.99)
         for i, (inp, labels) in enumerate(self.config.test_loader):
@@ -18,5 +18,5 @@ class DeepvacClsTest(Deepvac):
 
 if __name__ == '__main__':
     from config import config as deepvac_config
-    cls = DeepvacClsTest(deepvac_config)
+    cls = MobileNetv3Test(deepvac_config)
     cls()

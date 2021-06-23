@@ -28,21 +28,21 @@ DeepVAC-compliant MobileNetV3 implementation
 - 指定训练集、验证集、测试集的图片目录前缀、对应的标注txt文件和分隔符
 
 ```python
-# line 42-44
+# line 43-45
 fileline_path = 'data/train_cls.txt'
 delimiter = ' ' 
 sample_path_prefix = <your sample_path_prefix>
 
-# line 58
+# line 65
 fileline_path = 'data/val_cls.txt'
 
-# line 71
+# line 79
 fileline_path = 'data/test_cls.txt'
 ```
 
 - 修改分类数
 ```
-config.core.cls_num = 4
+config.core.DeepvacCls.cls_num = 4
 ```
 
 ## 5. 训练
@@ -58,7 +58,7 @@ python3 train.py
 
 ```python
 fileline_path = 'data/test_cls.txt'
-config.core.model_path = "your test model dir / pretrained weights"
+config.core.DeepvacClsTest.model_path = "your test model dir / pretrained weights"
 ```
 
 然后运行测试脚本：

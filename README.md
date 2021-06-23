@@ -2,15 +2,14 @@
 DeepVAC-compliant MobileNetV3 implementation
 
 # 简介
-本项目实现了符合DeepVAC规范的MobileNet V3。
+本项目实现了符合DeepVAC规范的MobileNet V3
 
 **项目依赖**
 
-- deepvac
-- pytorch
+- deepvac >= 0.5.6
+- pytorch >= 1.8.0
 - opencv-python
 - numpy
-
 
 # 如何运行本项目
 
@@ -18,7 +17,7 @@ DeepVAC-compliant MobileNetV3 implementation
 可以粗略阅读，建立起第一印象。
 
 ## 2. 准备运行环境
-使用Deepvac规范指定[Docker镜像](https://github.com/DeepVAC/deepvac#2-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87)。
+使用Deepvac规范指定[Docker镜像](https://github.com/DeepVAC/deepvac#2-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87)
 
 ## 3. 准备数据集
 自行准备。
@@ -26,56 +25,40 @@ DeepVAC-compliant MobileNetV3 implementation
 ## 4. 修改配置文件
 
 修改config.py文件。主要修改内容：
-- 指定训练集、验证集、测试集的图片目录和对应的标注txt文件
+- 指定训练集、验证集、测试集的图片目录前缀、对应的标注txt文件和分隔符
 
 ```python
-config.train.fileline_data_path_prefix = 'train images path'
-config.train.fileline_path = 'data/train_cls.txt'
+# line 42-44
+fileline_path = 'data/train_cls.txt'
+delimiter = ' ' 
+sample_path_prefix = <your sample_path_prefix>
 
-config.val.fileline_data_path_prefix = 'val images path'
-config.val.fileline_path = 'data/val_cls.txt'
+# line 58
+fileline_path = 'data/val_cls.txt'
 
-config.test.fileline_data_path_prefix = 'test images path'
-config.test.fileline_path = 'data/test_cls.txt'
+# line 71
+fileline_path = 'data/test_cls.txt'
 ```
 
 - 修改分类数
 ```
-config.num_classes = 4
+config.core.cls_num = 4
 ```
 
 ## 5. 训练
 
-### 5.1 单卡训练
 执行命令：
 ```bash
 python3 train.py
 ```
 
-### 5.2 分布式训练
-
-在config.py中修改如下配置：
-```python
-#dist_url，单机多卡无需改动，多机训练一定要修改
-config.dist_url = "tcp://localhost:27030"
-
-#rank的数量，一定要修改
-config.world_size = 2
-```
-然后执行命令：
-
-```bash
-python train.py --rank 0 --gpu 0
-python train.py --rank 1 --gpu 1
-```
-
-
 ## 6. 测试
 
-指定要测试模型的路径，在config.py指定待测模型路径：
+指定要测试模型和测试数据的路径，在config.py指定待测模型和数据路径：
 
 ```python
-config.model_path = 'your_model_path'
+fileline_path = 'data/test_cls.txt'
+config.core.model_path = "your test model dir / pretrained weights"
 ```
 
 然后运行测试脚本：

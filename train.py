@@ -1,12 +1,8 @@
-import sys
-sys.path.extend(["/opt/public/airlock/lihang/pyclipper/", "/opt/public/airlock/lihang/shapely/", "/opt/public/airlock/lihang/deepvac/"])
-from deepvac import LOG, DeepvacTrain
 import numpy as np
 
+from deepvac import LOG, DeepvacTrain
+
 class DeepvacCls(DeepvacTrain):
-    def __init__(self, deepvac_config):
-        super(DeepvacCls,self).__init__(deepvac_config)
-    
     def postIter(self):
         if self.config.is_train:
             return

@@ -2,7 +2,7 @@ import numpy as np
 
 from deepvac import LOG, DeepvacTrain
 
-class DeepvacCls(DeepvacTrain):
+class MobileNetv3Train(DeepvacTrain):
     def postIter(self):
         if self.config.is_train:
             return
@@ -26,5 +26,5 @@ class DeepvacCls(DeepvacTrain):
 
 if __name__ == '__main__':
     from config import config as deepvac_config
-    cls = DeepvacCls(deepvac_config)
+    cls = MobileNetv3Train(deepvac_config)
     cls()
